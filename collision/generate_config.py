@@ -47,9 +47,8 @@ def save_file(filename, atoms):
     print(f"Generated {filename}")
 
 
-atoms = []
-
-add_ball(atoms, -20, 2.0)
-add_ball(atoms, 20, -2.0)
-
-save_file("collision.atoms", atoms)
+if __name__ == "__main__":
+    atoms = []
+    add_ball(atoms, -20, 2.0)
+    add_ball(atoms, 20, -2.0)
+    save_file("collision.atoms", atoms)
