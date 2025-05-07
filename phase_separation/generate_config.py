@@ -6,18 +6,11 @@ class Atom:
         self.x = x
         self.y = y
         self.z = z
-        self.type = 1
+        self.type = random.randint(1,2)
         V0 = 1.0
         self.vx = V0 * random.uniform(-1, 1)
         self.vy = V0 * random.uniform(-1, 1)
         self.vz = V0 * random.uniform(-1, 1)
-
-
-def add_atom(x, y, z, R, atoms):
-    if x**2 + y**2 + z**2 < R**2:
-        return
-    atoms.append(Atom(x, y, z))
-
 
 def make_config(M, R, s):
     atoms = []
@@ -28,10 +21,10 @@ def make_config(M, R, s):
                 x = ix * s
                 y = iy * s
                 z = iz * s
-                add_atom(x, y, z, R, atoms)
-                add_atom(x, y + h, z + h, R, atoms)
-                add_atom(x + h, y, z + h, R, atoms)
-                add_atom(x + h, y + h, z, R, atoms)
+                atoms.append(Atom(x, y, z))
+                atoms.append(Atom(x, y+h, z+h))
+                atoms.append(Atom(x+h, y, z+h))
+                atoms.append(Atom(x+h, y+h, z))
     return atoms
 
 
@@ -39,7 +32,7 @@ def save_file(filename, atoms, L):
     with open(filename, "w") as f:
         f.write("Position Data\n\n")
         f.write(f"{len(atoms)} atoms\n")
-        f.write("1 atom types\n\n")
+        f.write("2 atom types\n\n")
         f.write(f"{-L} {L} xlo xhi\n")
         f.write(f"{-L} {L} ylo yhi\n")
         f.write(f"{-L} {L} zlo zhi\n")
@@ -58,7 +51,7 @@ if __name__ == "__main__":
     random.seed(0)
     M = 5
     R = 3.5
-    s = 1.55
+    s = 2.0
     atoms = make_config(M, R, s)
     L = M * s
-    save_file("bubble.atoms", atoms, L)
+    save_file("phase_separation.atoms", atoms, L)
